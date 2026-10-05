@@ -1,0 +1,105 @@
+@define-color bg1 #1C1C1E;
+@define-color bg2 #2C2C2E;
+@define-color bg3 #3A3A3C;
+@define-color bg4 #48484A;
+
+@define-color fg #F5F5F7;
+
+@define-color red #FF453A;
+@define-color black #000000;
+@define-color orange #FF9F0A;
+@define-color yellow #FFD60A;
+@define-color green #30D158;
+@define-color aqua #64D2FF;
+@define-color blue #0A84FF;
+@define-color purple #BF5AF2;
+
+@define-color grey0 #8E8E93;
+@define-color grey1 #636366;
+@define-color grey2 #48484A;
+
+* {
+	all: unset;
+	font-size: 13px;
+	font-family: "JetBrainsMono Nerd Font Propo";
+	font-weight: bold;
+}
+tooltip {
+	background-color: @bg1;
+	color: @fg;
+	border: 1px solid alpha(@fg, 0.12);
+	border-radius: 12px;
+	padding: 4px 8px;
+}
+
+tooltip label {
+	color: @fg;
+}
+
+.modules-center {
+	background: @black;
+	border-radius: 0px 0px 12px 12px;
+}
+
+/* ===== Общие «таблетки» в стиле macOS ===== */
+#clock,
+#pulseaudio,
+#user,
+#language {
+	margin: 5px 3px;
+	padding: 0 12px;
+	border-radius: 99px;
+	background-color: alpha(@fg, 0.15);
+	color: @fg;
+}
+
+/* ===== Воркспейсы ===== */
+#workspaces {
+	margin: 5px 3px;
+	padding: 0 8px;
+	background-color: alpha(@fg, 0.08);
+	border-radius: 99px;
+}
+
+/* неактивные: маленькие точки без текста */
+#workspaces button {
+	min-width: 8px;
+	min-height: 8px;
+	margin: 9px 4px;
+	padding: 0;
+	border-radius: 99px;
+	background-color: alpha(@fg, 0.35);
+	color: transparent;
+	font-size: 0;
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#workspaces button:hover {
+	background-color: alpha(@fg, 0.65);
+}
+
+#workspaces button.active {
+	min-width: 22px;
+	min-height: 18px;
+	margin: 4px 4px;
+	background-color: @fg;
+	color: @bg1;
+	font-size: 12px;
+}
+
+#workspaces button.urgent {
+	background-color: @orange;
+	color: @bg1;
+}
+
+#pulseaudio.muted {
+	color: @red;
+	background-color: alpha(@red, 0.15);
+}
+
+#window {
+	margin: 5px 3px;
+        padding: 0 12px;
+	color: @fg;
+}
+

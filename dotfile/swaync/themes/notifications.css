@@ -1,0 +1,138 @@
+@define-color text            @fg;
+@define-color background-alt  @bg1;
+@define-color background      @black;
+@define-color selected        @green;
+@define-color hover           @bg2;
+@define-color urgent          @red;
+
+/* macOS-inspired floating notifications:
+   compact glass cards with large rounded corners and soft separation. */
+
+* {
+  color: @text;
+  all: unset;
+  font-size: 14px;
+  font-family: "JetBrains Mono Nerd Font Propo";
+  font-weight: bold;
+  transition: 180ms ease;
+}
+
+.notification-row {
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Floating card ----------------------------------------------------------- */
+
+.floating-notifications.background .notification-row .notification-background {
+  background: alpha(@background-alt, 0.54);
+  margin: 6px 16px;
+  padding: 0;
+  border: 1px solid alpha(@fg, 0.13);
+  border-radius: 18px;
+}
+
+.floating-notifications.background .notification-row .notification-background:hover {
+  background: alpha(@background-alt, 0.98);
+  border-color: alpha(@fg, 0.20);
+}
+
+.floating-notifications.background .notification-row .notification-background .notification {
+  padding: 3px;
+  border-radius: 16px;
+}
+
+.floating-notifications.background .notification-row .notification-background .notification.critical {
+  background: alpha(@urgent, 0.16);
+  border: 1px solid alpha(@urgent, 0.55);
+  border-radius: 16px;
+}
+
+.floating-notifications.background .notification-row .notification-background .notification .notification-content {
+  margin: 13px;
+}
+
+/* App icon ---------------------------------------------------------------- */
+
+.image {
+  margin: 8px 14px 8px 0;
+  border-radius: 10px;
+}
+
+/* Text -------------------------------------------------------------------- */
+
+.summary {
+  font-weight: 800;
+  font-size: 0.95rem;
+  margin-bottom: 3px;
+}
+
+.body {
+  font-size: 0.82rem;
+  font-weight: normal;
+}
+
+/* Actions ----------------------------------------------------------------- */
+
+.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * {
+  min-height: 2.2em;
+}
+
+.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action {
+  background: alpha(@fg, 0.07);
+  color: @fg;
+  margin: 4px;
+  padding: 7px 10px;
+  border: 1px solid alpha(@fg, 0.08);
+  border-radius: 9px;
+}
+
+.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
+  background: alpha(@fg, 0.15);
+}
+
+.floating-notifications.background .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
+  background: alpha(@fg, 0.22);
+  color: @fg;
+}
+
+/* Close button ------------------------------------------------------------ */
+
+.floating-notifications.background .notification-row .notification-background .close-button {
+  margin: 7px;
+  padding: 3px;
+  min-width: 18px;
+  min-height: 18px;
+  background: alpha(@fg, 0.07);
+  color: @fg;
+  border: 1px solid alpha(@fg, 0.08);
+  border-radius: 50%;
+}
+
+.floating-notifications.background .notification-row .notification-background .close-button:hover {
+  background: alpha(@urgent, 0.80);
+  color: @fg;
+  border-color: transparent;
+}
+
+.floating-notifications.background .notification-row .notification-background .close-button:active {
+  background: @urgent;
+}
+
+/* Progress ---------------------------------------------------------------- */
+
+.notification.critical progress {
+  background-color: @urgent;
+}
+
+.notification.low progress,
+.notification.normal progress {
+  background-color: alpha(@fg, 0.20);
+}
+
+progressbar,
+progress,
+trough {
+  border-radius: 999px;
+}

@@ -1,0 +1,76 @@
+{
+	// SETTINGS BAR
+	"position": "top",
+	"modules-left": [
+		"hyprland/workspaces"
+	],
+	"modules-center": [	
+		"hyprland/window"
+	],
+	"modules-right": [
+		"hyprland/language",
+		"pulseaudio",
+		"clock",
+		"user"
+	],
+	// WIDGETS SETTINGS
+	"clock": {
+		"interval": 60,
+		"format": "{:%a %b %e %I:%M %p}",
+                "locale": "en_US.UTF-8",
+		"tooltip": false
+	},
+	"hyprland/language": {
+		"format": "{short} {variant}"
+	},
+	"hyprland/window": {
+		"format": "{}",
+		"rewrite": {
+		    "^$": "Desktop",
+		    "(.*) — Mozilla Firefox": "Mozila Firefox",
+		    "(.*) [-—] (.*)": "$2"
+		}
+	},
+	"user": {
+		"format": "{work_H}h {work_M}m",
+		"interval": 60,
+		"icon": true,
+		"height": 24,
+		"width": 24
+	},
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"format-icons": {
+			"1": "1",
+			"2": "2",
+			"3": "3",
+			"4": "4",
+			"5": "5",
+			"6": "6",
+			"7": "7",
+			"8": "8",
+			"9": "9",
+			"urgent": "",
+			"default": ""
+		},
+		"persistent-workspaces": {
+		"*": 9 
+		}
+	},
+	"pulseaudio": {
+		"format": "{icon} {volume}%",
+		"format-muted": "",
+		"format-icons": {
+			"default": [
+				"",
+				"",
+				""
+			]
+		},
+		"scroll-step": 1,
+		"ignored-sinks": [
+			"Easy Effects Sink"
+		],
+		"on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+	}
+}

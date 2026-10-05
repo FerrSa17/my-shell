@@ -1,0 +1,236 @@
+@define-color text            @fg;
+@define-color background-alt  @bg1;
+@define-color background      @black;
+@define-color selected        @green;
+@define-color hover           @bg2;
+@define-color urgent          @red;
+
+/* macOS-inspired SwayNC theme:
+   soft glassy panels, large rounded corners, subtle borders and spacing. */
+
+* {
+  color: @text;
+  all: unset;
+  font-size: 14px;
+  font-family: "JetBrains Mono Nerd Font Propo";
+  font-weight: bold;
+  transition: 180ms ease;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CONTROL CENTER                                                            */
+/* -------------------------------------------------------------------------- */
+
+.blank-window {
+  background: transparent;
+}
+
+.control-center {
+  background: alpha(@background-alt, 0.54);
+  margin: 14px;
+  padding: 14px;
+  border: 1px solid alpha(@fg, 0.12);
+  border-radius: 22px;
+  box-shadow: 0 18px 45px alpha(@black, 0.45);
+}
+
+/* Header / clear button --------------------------------------------------- */
+
+.widget-title {
+  background: transparent;
+  margin: 2px 4px 10px;
+  padding: 4px 2px;
+  color: @fg;
+  font-size: 1.15rem;
+}
+
+.widget-title button {
+  background: alpha(@fg, 0.08);
+  color: @fg;
+  padding: 7px 14px;
+  border: 1px solid alpha(@fg, 0.10);
+  border-radius: 10px;
+}
+
+.widget-title button:hover {
+  background: alpha(@fg, 0.16);
+}
+
+.widget-title button:active {
+  background: alpha(@fg, 0.22);
+}
+
+/* Notifications ----------------------------------------------------------- */
+
+.control-center .notification-row .notification-background {
+  background: alpha(@background, 0.68);
+  margin: 5px 0;
+  padding: 0;
+  border: 1px solid alpha(@fg, 0.10);
+  border-radius: 16px;
+  box-shadow: 0 5px 18px alpha(@black, 0.18);
+}
+
+.control-center .notification-row .notification-background:hover {
+  background: alpha(@background, 0.82);
+  border-color: alpha(@fg, 0.16);
+}
+
+.control-center .notification-row .notification-background .notification {
+  padding: 3px;
+  border-radius: 14px;
+}
+
+.control-center .notification-row .notification-background .notification.critical {
+  background: alpha(@urgent, 0.14);
+  border: 1px solid alpha(@urgent, 0.55);
+  border-radius: 14px;
+}
+
+.control-center .notification-row .notification-background .notification .notification-content {
+  margin: 13px;
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * {
+  min-height: 2.2em;
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action {
+  background: alpha(@fg, 0.07);
+  color: @fg;
+  margin: 4px;
+  padding: 7px 10px;
+  border: 1px solid alpha(@fg, 0.08);
+  border-radius: 9px;
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
+  background: alpha(@fg, 0.14);
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
+  background: alpha(@fg, 0.20);
+  color: @fg;
+}
+
+/* Close button ------------------------------------------------------------ */
+
+.control-center .notification-row .notification-background .close-button {
+  margin: 7px;
+  padding: 4px;
+  min-width: 18px;
+  min-height: 18px;
+  background: alpha(@fg, 0.07);
+  color: @fg;
+  border: 1px solid alpha(@fg, 0.08);
+  border-radius: 50%;
+}
+
+.control-center .notification-row .notification-background .close-button:hover {
+  background: alpha(@urgent, 0.80);
+  color: @fg;
+  border-color: transparent;
+}
+
+.control-center .notification-row .notification-background .close-button:active {
+  background: @urgent;
+}
+
+/* Groups ------------------------------------------------------------------ */
+
+.notification-group {
+  margin: 4px 2px;
+}
+
+.notification-group-headers {
+  font-size: 1.05rem;
+  color: @fg;
+  margin: 4px 2px;
+}
+
+.notification-group-icon {
+  color: @fg;
+}
+
+.notification-group-collapse-button,
+.notification-group-close-all-button {
+  background: alpha(@fg, 0.07);
+  color: @fg;
+  margin: 3px;
+  padding: 6px 9px;
+  border: 1px solid alpha(@fg, 0.08);
+  border-radius: 9px;
+}
+
+.notification-group-collapse-button:hover,
+.notification-group-close-all-button:hover {
+  background: alpha(@fg, 0.15);
+}
+
+.notification-group-collapse-button:active,
+.notification-group-close-all-button:active {
+  background: alpha(@fg, 0.22);
+}
+
+/* Do Not Disturb ---------------------------------------------------------- */
+
+.widget-dnd {
+  margin: 8px 4px;
+  padding: 2px;
+  font-size: 1rem;
+  color: @fg;
+}
+
+.widget-dnd > switch {
+  min-width: 42px;
+  min-height: 22px;
+  background: alpha(@fg, 0.12);
+  border: 1px solid alpha(@fg, 0.10);
+  border-radius: 12px;
+  padding: 2px;
+}
+
+.widget-dnd > switch:hover {
+  background: alpha(@fg, 0.18);
+}
+
+.widget-dnd > switch:checked {
+  background: alpha(@green, 0.65);
+}
+
+.widget-dnd > switch:checked:hover {
+  background: @green;
+}
+
+.widget-dnd > switch slider {
+  min-width: 18px;
+  min-height: 18px;
+  background: @fg;
+  border-radius: 50%;
+}
+
+/* Empty state ------------------------------------------------------------- */
+
+.control-center-list-placeholder image {
+  color: @fg;
+}
+
+.control-center-list-placeholder label {
+  color: alpha(@fg, 0.65);
+}
+
+/* Progress ---------------------------------------------------------------- */
+
+progressbar,
+progress,
+trough {
+  border-radius: 999px;
+}
+
+progressbar {
+  background-color: alpha(@fg, 0.18);
+}
+
+progress {
+  background-color: @green;
+}

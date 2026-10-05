@@ -1,0 +1,22 @@
+@define-color bg1 #1C1C1E;
+@define-color bg2 #2C2C2E;
+@define-color bg3 #3A3A3C;
+@define-color bg4 #48484A;
+
+@define-color fg #F5F5F7;
+
+@define-color red #FF453A;
+@define-color black #000000;
+@define-color orange #FF9F0A;
+@define-color yellow #FFD60A;
+@define-color green #30D158;
+@define-color aqua #64D2FF;
+@define-color blue #0A84FF;
+@define-color purple #BF5AF2;
+
+@define-color grey0 #8E8E93;
+@define-color grey1 #636366;
+@define-color grey2 #48484A;
+
+@import 'themes/notifications.css';
+@import 'themes/central_control.css';
