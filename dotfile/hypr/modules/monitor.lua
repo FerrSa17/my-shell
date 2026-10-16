@@ -34,5 +34,26 @@ hl.workspace_rule({
     monitor = "HDMI-A-1",
     persistent = true
 })
+hl.workspace_rule({
+    workspace = "6",
+    monitor = "HDMI-A-1",
+    persistent = true
+})
+hl.workspace_rule({
+    workspace = "7",
+    monitor = "HDMI-A-1",
+    persistent = true
+})
+hl.workspace_rule({
+    workspace = "8",
+    monitor = "HDMI-A-1",
+    persistent = true
+})
+hl.workspace_rule({
+    workspace = "9",
+    monitor = "HDMI-A-1",
+    persistent = true
+})
+
 
 
