@@ -1,0 +1,14 @@
+module qs.services
+singleton Ipc 1.0 Ipc.qml
+singleton Hypr 1.0 Hypr.qml
+singleton Net 1.0 Net.qml
+singleton Media 1.0 Media.qml
+singleton Audio 1.0 Audio.qml
+singleton Notifs 1.0 Notifs.qml
+singleton Recording 1.0 Recording.qml
+singleton Privacy 1.0 Privacy.qml
+singleton Countdown 1.0 Countdown.qml
+singleton Todo 1.0 Todo.qml
+singleton Dock 1.0 Dock.qml
+singleton Sys 1.0 Sys.qml
+singleton Weather 1.0 Weather.qml

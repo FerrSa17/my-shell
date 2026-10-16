@@ -1,0 +1,140 @@
+{
+  "island": {
+    "topGap": 6,
+    "reserve": 40,
+    "mode": "reserve",
+    "liveActivities": true,
+    "reducedMotion": false,
+    "clickLeft": "cc",
+    "clickRight": "none",
+    "clickMiddle": "media",
+    "scroll": "volume",
+    "nowPlayingOsd": true,
+    "fullscreenReveal": true,
+    "fullscreenOsd": true,
+    "clock": "24",
+    "opacity": 100,
+    "volumeOsd": true,
+    "notifToasts": true,
+    "notifHoldMs": 5000,
+    "compactMedia": true,
+    "equalizer": true,
+    "color": "default",
+    "borderWidth": 1,
+    "borderColor": "default",
+    "shadow": false,
+    "osdHoldMs": 1100,
+    "timerActivity": true,
+    "recIndicator": true,
+    "micIndicator": true,
+    "dateFormat": "d MMMM yyyy"
+  },
+  "lock": {
+    "clock": "quiet",
+    "date": true,
+    "name": true,
+    "reveal": true,
+    "status": true
+  },
+  "modules": {
+    "media": true,
+    "calendar": true,
+    "launcher": true,
+    "wallpapers": true,
+    "settings": true,
+    "todo": true,
+    "timer": true,
+    "dock": true,
+    "clipboard": true
+  },
+  "layout": {
+    "cc": {
+      "tiles": [
+        {
+          "id": "network",
+          "enabled": true,
+          "size": "2x1"
+        },
+        {
+          "id": "dnd",
+          "enabled": true,
+          "size": "2x1"
+        }
+      ],
+      "sliders": true,
+      "media": true,
+      "power": true
+    }
+  },
+  "motion": {
+    "leaveGraceMs": 300,
+    "armMs": 500,
+    "revealMs": 1500,
+    "springQuick": {
+      "spring": 12,
+      "damping": 0.6,
+      "velocity": 0
+    },
+    "springCalm": {
+      "spring": 6,
+      "damping": 0.5,
+      "velocity": 0
+    },
+    "springReduced": {
+      "spring": 50,
+      "damping": 1,
+      "velocity": 0
+    },
+    "contentInDelayMs": 90,
+    "contentInMs": 120,
+    "contentOutMs": 50,
+    "reducedScale": 0.4,
+    "speed": 100,
+    "type": "spring"
+  },
+  "dock": {
+    "pinned": [
+      "firefox",
+      "foot",
+      "dev.zed.Zed",
+      "org.telegram.desktop",
+      "discord",
+      "obsidian"
+    ],
+    "iconSize": 44,
+    "autohide": false,
+    "spacing": 6,
+    "margin": 8,
+    "opacity": 100,
+    "magnify": true,
+    "labels": true,
+    "indicators": true,
+    "position": "bottom",
+    "radius": 20,
+    "border": true,
+    "shadow": false,
+    "zoom": 114,
+    "showDelay": 0,
+    "hideDelay": 300,
+    "dotColor": "default",
+    "separator": true,
+    "windowCount": true
+  },
+  "player": {
+    "showArt": true,
+    "showProgress": true,
+    "showTime": true
+  },
+  "notifications": {
+    "sound": false,
+    "maxAgeMin": "0",
+    "muted": [],
+    "dndSchedule": false,
+    "dndFrom": "23:00",
+    "dndTo": "08:00"
+  },
+  "colors": {
+    "accent": "",
+    "contrast": "normal"
+  }
+}

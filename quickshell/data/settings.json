@@ -1,0 +1,54 @@
+{
+  "dock": {
+    "pinned": [
+      "firefox",
+      "Happ",
+      "dev.zed.Zed",
+      "org.telegram.desktop",
+      "discord",
+      "obsidian",
+      "thunar"
+    ],
+    "iconSize": 38,
+    "autohide": false,
+    "showDelay": 0,
+    "spacing": 8,
+    "margin": 10,
+    "radius": 20,
+    "opacity": 100,
+    "border": false,
+    "shadow": true,
+    "magnify": true
+  },
+  "island": {
+    "topGap": 5,
+    "mode": "reserve",
+    "liveActivities": true,
+    "nowPlayingOsd": true,
+    "reserve": 38,
+    "clickRight": "calendar",
+    "color": "default",
+    "shadow": false,
+    "micIndicator": true
+  },
+  "lock": {
+    "clock": "bold",
+    "date": true
+  },
+  "layout": {
+    "cc": {
+      "tiles": [
+        {
+          "id": "network",
+          "enabled": true,
+          "size": "2x1"
+        },
+        {
+          "id": "dnd",
+          "enabled": true,
+          "size": "2x1"
+        }
+      ]
+    }
+  }
+}
