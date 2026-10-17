@@ -1,13 +1,13 @@
 {
   "dock": {
     "pinned": [
+      "thunar",
+      "com.anthropic.Claude",
       "firefox",
-      "Happ",
-      "dev.zed.Zed",
       "org.telegram.desktop",
       "discord",
-      "obsidian",
-      "thunar"
+      "dev.zed.Zed",
+      "obsidian"
     ],
     "iconSize": 38,
     "autohide": false,

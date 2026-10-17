@@ -14,7 +14,10 @@ PanelWindow {
     // fade animation's `running` unmapped the window for a frame before the fade began, so a close
     // flashed it back open.)
     property bool mapped: false
-    onOpenChanged: { if (open) { unmap.stop(); mapped = true } else unmap.restart() }
+    onOpenChanged: {
+        if (open) { unmap.stop(); mapped = true; if (loader.item) loader.item.forceActiveFocus() }
+        else unmap.restart()
+    }
     Timer { id: unmap; interval: Theme.durationNormal + 40; onTriggered: win.mapped = false }
     visible: mapped
     screen: Quickshell.screens.find(s => s.name === Hypr.focusedMonitorName) || Quickshell.screens[0]
@@ -41,16 +44,21 @@ PanelWindow {
         radius: Sizes.radiusExpanded
         color: "#000000"
         border.width: 1; border.color: Qt.rgba(1, 1, 1, 0.06)
-        opacity: win.open ? 1 : 0
-        scale: win.open ? 1 : 0.94
+        // Shown only once the panel inside has been built, so it never appears as an empty black box.
+        opacity: win.open && loader.status === Loader.Ready ? 1 : 0
+        scale: win.open && loader.status === Loader.Ready ? 1 : 0.94
         Behavior on opacity { NumberAnimation { duration: Theme.durationNormal; easing.type: Easing.OutCubic } }
         Behavior on scale { NumberAnimation { duration: Theme.durationNormal; easing.type: Easing.OutCubic } }
         // Clicks inside the panel stay in it.
         MouseArea { anchors.fill: parent }
 
+        // Built in the background right after startup (the window is still unmapped), so the first
+        // open finds it ready instead of constructing the whole panel on that frame.
         Loader {
+            id: loader
             anchors.fill: parent
-            active: win.visible
+            active: true
+            asynchronous: true
             focus: true
             sourceComponent: SettingsPanel {
                 focus: true
@@ -58,7 +66,7 @@ PanelWindow {
                 onCloseRequested: Ipc.settingsOpen = false
                 onOpenWallpapers: { Ipc.settingsOpen = false; if (Ipc.island) Ipc.island.openSurface("wallpapers") }
             }
-            onLoaded: item.forceActiveFocus()
+            onLoaded: if (win.open) item.forceActiveFocus()
         }
     }
 }

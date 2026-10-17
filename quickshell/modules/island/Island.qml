@@ -331,6 +331,12 @@ Item {
     Component { id: calendarComp; Surf.Calendar {} }
     Component { id: todoComp; Surf.Todo { onClose: islandRoot.closeSurface() } }
     Component { id: clipboardComp; Surf.Clipboard { onClose: islandRoot.closeSurface() } }
+    // Warm-up: build the control center once, hidden, shortly after startup. The first open used to
+    // compile it and its tiles while the pill was already full size, which showed an empty black box.
+    Timer {
+        interval: 2500; running: true
+        onTriggered: { const o = ccComp.createObject(islandRoot, { visible: false }); if (o) o.destroy() }
+    }
     Component { id: timerComp; Surf.Timer {} }
     Component { id: launcherComp; Surf.Launcher { mode: islandRoot.launcherMode; onClose: islandRoot.closeSurface() } }
     Component {
