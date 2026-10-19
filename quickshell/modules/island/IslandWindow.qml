@@ -81,6 +81,10 @@ Scope {
             onPressed: if (island.armed) island.closeSurface()
         }
 
+        // The wave ring around the pill (wave.position "pill"), under the pill itself, never on the input mask.
+        PillWave { pill: island }
+        TimerRing { pill: island }
+
         Island {
             id: island
             hidden: scope.hidden

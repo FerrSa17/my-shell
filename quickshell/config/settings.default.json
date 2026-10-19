@@ -36,6 +36,18 @@
     "reveal": true,
     "status": true
   },
+  "wave": {
+    "enabled": false,
+    "position": "bottom",
+    "source": "sound",
+    "color": "default",
+    "opacity": 90,
+    "smooth": 70,
+    "height": 260,
+    "base": 0,
+    "border": true,
+    "borderColor": "default"
+  },
   "modules": {
     "media": true,
     "calendar": true,

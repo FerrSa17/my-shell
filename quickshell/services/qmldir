@@ -12,3 +12,4 @@ singleton Todo 1.0 Todo.qml
 singleton Dock 1.0 Dock.qml
 singleton Sys 1.0 Sys.qml
 singleton Weather 1.0 Weather.qml
+singleton Wave 1.0 Wave.qml

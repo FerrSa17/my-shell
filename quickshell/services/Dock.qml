@@ -73,11 +73,18 @@ Singleton {
         dispatch("hl.dsp.window.move({ workspace = \"" + special + "\", window = \"address:" + address + "\", follow = false })")
         debounce.restart()
     }
-    function restore(address) {
-        dispatch("hl.dsp.window.move({ workspace = " + Hypr.focusedId + ", window = \"address:" + address + "\" })")
-        focus(address)
+    // Focusing a window makes Hyprland warp the pointer to its centre. A click on the dock should leave
+    // the pointer on the icon, so focus runs with cursor.no_warps on (warping comes back a moment later).
+    function focusKeepingPointer(luaList) {
+        const noWarps = on => "hyprctl eval 'hl.config({ cursor = { no_warps = " + on + " } })' >/dev/null; "
+        Quickshell.execDetached(["sh", "-c", noWarps(true) + 'for d in "$@"; do hyprctl dispatch "$d" >/dev/null; done; sleep 0.4; ' + noWarps(false), "sh"].concat(luaList))
     }
-    function focus(address) { dispatch("hl.dsp.focus({ window = \"address:" + address + "\" })"); debounce.restart() }
+    function restore(address) {
+        focusKeepingPointer(["hl.dsp.window.move({ workspace = " + Hypr.focusedId + ", window = \"address:" + address + "\" })",
+            "hl.dsp.focus({ window = \"address:" + address + "\" })"])
+        debounce.restart()
+    }
+    function focus(address) { focusKeepingPointer(["hl.dsp.focus({ window = \"address:" + address + "\" })"]); debounce.restart() }
     function close(address) { dispatch("hl.dsp.window.close({ window = \"address:" + address + "\" })") }
     function minimizeActive() {
         const t = Hyprland.activeToplevel

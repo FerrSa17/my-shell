@@ -10,8 +10,8 @@ import qs.services
 // bound to the services.
 Item {
     id: root
-    // island.timerActivity false: the countdown stays off the pill (its surface still shows it).
-    property bool timerOn: Countdown.active && Settings.island.timerActivity !== false
+    // The countdown is drawn around the island and beside it (TimerRing), not inside the pill.
+    property bool timerOn: false
     property int timerSecs: Countdown.remaining
     property bool mediaOn: Media.player !== null && Media.playing
     property real mediaProgress: Media.length > 0 ? Math.max(0, Math.min(1, Media.position / Media.length)) : 0

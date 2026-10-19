@@ -2,15 +2,16 @@
   "dock": {
     "pinned": [
       "thunar",
-      "com.anthropic.Claude",
-      "firefox",
       "org.telegram.desktop",
       "discord",
+      "com.anthropic.Claude",
+      "firefox",
       "dev.zed.Zed",
       "obsidian"
     ],
     "iconSize": 38,
     "autohide": false,
+    "labels": false,
     "showDelay": 0,
     "spacing": 8,
     "margin": 10,
@@ -29,7 +30,8 @@
     "clickRight": "calendar",
     "color": "default",
     "shadow": false,
-    "micIndicator": true
+    "micIndicator": true,
+    "opacity": 100
   },
   "lock": {
     "clock": "bold",
@@ -50,5 +52,16 @@
         }
       ]
     }
+  },
+  "wave": {
+    "enabled": true,
+    "position": "bottom",
+    "source": "sound",
+    "border": false,
+    "opacity": 74,
+    "color": "#7fb3a3,#9cd1c1,#b6cbc3",
+    "height": 149,
+    "smooth": 58,
+    "borderColor": "#e1e3e0"
   }
 }

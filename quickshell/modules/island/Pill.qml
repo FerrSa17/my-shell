@@ -29,8 +29,20 @@ Rectangle {
     radius: Sizes.radiusFor(target.height)
     // island.color / island.opacity (percent) for the body, island.borderWidth / island.borderColor
     // for the outline (0 px: none).
-    readonly property color fill: Colors.pick(Settings.island.color, "#000000")
-    color: Qt.rgba(fill.r, fill.g, fill.b, (Settings.island.opacity !== undefined ? Settings.island.opacity : 100) / 100)
+    // island.color may be a gradient (up to four colours, left to right).
+    readonly property var fills: Colors.stops(Settings.island.color, "#000000")
+    readonly property real fillAlpha: (Settings.island.opacity !== undefined ? Settings.island.opacity : 100) / 100
+    function shade(t) { const c = Colors.sample(fills, t); return Qt.rgba(c.r, c.g, c.b, fillAlpha) }
+    color: shade(0)
+    gradient: fills.length > 1 ? fillGradient : null
+    Gradient {
+        id: fillGradient
+        orientation: Gradient.Horizontal
+        GradientStop { position: 0; color: pill.shade(0) }
+        GradientStop { position: 1 / 3; color: pill.shade(1 / 3) }
+        GradientStop { position: 2 / 3; color: pill.shade(2 / 3) }
+        GradientStop { position: 1; color: pill.shade(1) }
+    }
     border.width: Settings.island.borderWidth !== undefined ? Settings.island.borderWidth : 1
     border.color: Colors.pick(Settings.island.borderColor, Qt.rgba(1, 1, 1, 0.06))
     clip: true

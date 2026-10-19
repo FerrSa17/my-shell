@@ -30,7 +30,7 @@ FocusScope {
         { id: "modules", label: "Modules", glyph: "widgets", keys: "surfaces tiles control center sections" },
         { id: "dock", label: "Dock", glyph: "dock_to_bottom", keys: "position auto-hide autohide delay icon size spacing margin radius opacity border shadow magnify names dots divider window count pinned" },
         { id: "notifications", label: "Notifications", glyph: "notifications", keys: "do not disturb quiet hours schedule pill sound auto-remove apps mute clear" },
-        { id: "control", label: "Control center", glyph: "tune", keys: "date format" },
+        { id: "wave", label: "Wave", glyph: "graphic_eq", keys: "wave equalizer visualizer music sound edge top bottom left right colour color" },
         { id: "theme", label: "Theme", glyph: "palette", keys: "accent contrast wallpapers colour color" },
         { id: "lock", label: "Lock", glyph: "lock", keys: "clock date name reveal status lock screen" }]
     // Settings search: the pages whose label or rows match; the first match opens.
@@ -108,12 +108,17 @@ FocusScope {
         }
         Label { x: parent.width - 48; width: 48; height: parent.height; horizontalAlignment: Text.AlignRight
             text: Math.round(sl.cur) + " " + sl.unit; color: Colors.islandFgVar; font.features: { "tnum": 1 } }
+        // Double click the value (or the track) to type the number.
+        NumField { id: numEdit; x: parent.width - 60; y: 3; value: Math.round(sl.cur); from: sl.from; to: sl.to
+            onApplied: v => root.commit(sl.key, v) }
+        MouseArea { x: parent.width - 54; width: 54; height: parent.height; cursorShape: Qt.IBeamCursor; onDoubleClicked: numEdit.open() }
         function at(mx) { return Math.round(sl.from + Math.max(0, Math.min(1, mx / track.width)) * (sl.to - sl.from)) }
         MouseArea {
             anchors.fill: parent; anchors.rightMargin: 54; cursorShape: Qt.PointingHandCursor
             onPressed: m => root.setPreview(sl.key, sl.at(m.x))
             onPositionChanged: m => { if (pressed) root.setPreview(sl.key, sl.at(m.x)) }
             onReleased: m => root.commit(sl.key, sl.at(m.x))
+            onDoubleClicked: numEdit.open()
             Accessible.role: Accessible.Slider; Accessible.name: sl.rowTitle; Accessible.description: Math.round(sl.cur) + " " + sl.unit
             // Keyboard (the island's navigator calls this on Left/Right): n steps, committed at once.
             function stepAdjust(n) { root.commit(sl.key, Math.max(sl.from, Math.min(sl.to, Math.round(sl.cur) + n * sl.step))) }
@@ -403,7 +408,7 @@ FocusScope {
         x: 148; y: 14; width: parent.width - 160; height: parent.height - 28 - (root.warning !== "" ? 24 : 0)
         clip: true; contentWidth: width; boundsBehavior: Flickable.StopAtBounds
         // The page shown decides the scroll height (the others are hidden).
-        contentHeight: Math.max(height, [islandPage, eventsPage, playerPage, behaviourPage, modulesPage, lockPage, dockPage, notificationsPage, controlPage, themePage].reduce((h, pg) => pg.visible ? (pg.implicitHeight || pg.height) : h, 0))
+        contentHeight: Math.max(height, [islandPage, eventsPage, playerPage, behaviourPage, modulesPage, lockPage, dockPage, notificationsPage, themePage, wavePage].reduce((h, pg) => pg.visible ? (pg.implicitHeight || pg.height) : h, 0))
 
         // Island: placement, look and motion
         Column {
@@ -413,15 +418,12 @@ FocusScope {
             SlideRow { title: "Top gap"; key: "island.topGap"; from: 0; to: 24; step: 1; unit: "px" }
             SlideRow { title: "Reserve"; key: "island.reserve"; from: 0; to: 80; step: 1; unit: "px" }
             Label { height: 30; text: "Look"; font.weight: Font.DemiBold; color: Colors.islandFgVar }
-            ColourRow { title: "Background"; key: "island.color"; options: [{ v: "default", c: "#000000" }, { v: "#14161a", c: "#14161a" }, { v: "#0f1b2d", c: "#0f1b2d" }, { v: "#1d1326", c: "#1d1326" }, { v: "#1f1410", c: "#1f1410" }, { v: "surface", c: Colors.islandSurface }] }
+            ColourEdit { panel: root; title: "Background"; key: "island.color"; defColor: "#000000"
+                choices: [{ v: "#14161a", c: "#14161a" }, { v: "#0f1b2d", c: "#0f1b2d" }, { v: "#1d1326", c: "#1d1326" }, { v: "#1f1410", c: "#1f1410" }, { v: "surface", c: Colors.islandSurface }] }
             SlideRow { title: "Opacity"; key: "island.opacity"; from: 40; to: 100; step: 1; unit: "%" }
-            SlideRow { title: "Border width"; key: "island.borderWidth"; from: 0; to: 3; step: 1; unit: "px" }
-            ColourRow { title: "Border colour"; key: "island.borderColor"; options: [{ v: "default", c: Qt.rgba(1, 1, 1, 0.15) }, { v: "#66ffffff", c: "#66ffffff" }, { v: "accent", c: Colors.islandPrimary }] }
             SwitchRow { title: "Shadow"; key: "island.shadow"; def: false }
             Label { height: 30; text: "Motion"; font.weight: Font.DemiBold; color: Colors.islandFgVar }
             ChipsRow { title: "Animation"; key: "motion.type"; options: ["spring", "smooth"]; labels: ({ spring: "Spring", smooth: "Smooth" }) }
-            SlideRow { title: "Animation speed"; key: "motion.speed"; from: 50; to: 200; step: 10; unit: "%" }
-            SlideRow { title: "Fold delay"; key: "island.osdHoldMs"; from: 500; to: 4000; step: 100; unit: "ms" }
         }
 
         // Events: what shows on the pill
@@ -434,7 +436,6 @@ FocusScope {
             SwitchRow { title: "Volume"; key: "island.volumeOsd" }
             SwitchRow { title: "Notifications"; key: "island.notifToasts" }
             SwitchRow { title: "Timer"; key: "island.timerActivity" }
-            SwitchRow { title: "Screen recording"; key: "island.recIndicator" }
             SwitchRow { title: "Microphone"; key: "island.micIndicator" }
         }
 
@@ -445,7 +446,6 @@ FocusScope {
             Label { height: 30; text: "Player (middle click on the pill)"; font.weight: Font.DemiBold; color: Colors.islandFgVar }
             SwitchRow { title: "Cover"; key: "player.showArt" }
             SwitchRow { title: "Progress bar"; key: "player.showProgress" }
-            SwitchRow { title: "Time"; key: "player.showTime" }
             SwitchRow { title: "Open on a new track"; key: "island.nowPlayingOsd" }
         }
 
@@ -457,7 +457,6 @@ FocusScope {
             Row2 { title: "Clock"; z: 6; Drop { key: "clock"; options: ["24", "12"] } }
             Row2 { title: "Left click"; z: 4; Drop { key: "clickLeft"; options: ["cc", "media", "calendar", "todo", "timer", "none"] } }
             Row2 { title: "Right click"; z: 3; Drop { key: "clickRight"; options: ["cc", "media", "calendar", "todo", "timer", "none"] } }
-            Row2 { title: "Middle click"; z: 2; Drop { key: "clickMiddle"; options: ["cc", "media", "calendar", "todo", "timer", "none"] } }
             Row2 { title: "Scroll"; z: 1; Drop { key: "scroll"; options: ["volume", "none"] } }
             // Two clicks within 3 s: drops every override in settings.json, the defaults apply again.
             Row2 { title: "Reset settings"
@@ -528,8 +527,6 @@ FocusScope {
             Row2 { title: "Clock"; z: 1; Drop { key: "lock.clock"; options: ["quiet", "bold", "stacked"] } }
             Row2 { title: "Date"; Switch { anchors.verticalCenter: parent.verticalCenter; on: root.cfgValue("lock.date") !== false; onToggled: v => root.setLock("date", v) } }
             Row2 { title: "Name"; Switch { anchors.verticalCenter: parent.verticalCenter; on: root.cfgValue("lock.name") !== false; onToggled: v => root.setLock("name", v) } }
-            Row2 { title: "Reveal on key"; Switch { anchors.verticalCenter: parent.verticalCenter; on: root.cfgValue("lock.reveal") !== false; onToggled: v => root.setLock("reveal", v) } }
-            Row2 { title: "Status line"; Switch { anchors.verticalCenter: parent.verticalCenter; on: root.cfgValue("lock.status") !== false; onToggled: v => root.setLock("status", v) } }
         }
 
         // Dock: settings dock.* and the pinned apps
@@ -539,7 +536,6 @@ FocusScope {
             ChipsRow { title: "Position"; key: "dock.position"; options: ["bottom", "left", "right", "top"] }
             SwitchRow { title: "Auto-hide"; key: "dock.autohide"; def: false }
             SlideRow { title: "Show delay"; key: "dock.showDelay"; from: 0; to: 1000; step: 50; unit: "ms" }
-            SlideRow { title: "Hide delay"; key: "dock.hideDelay"; from: 0; to: 2000; step: 50; unit: "ms" }
             Label { height: 30; text: "Look"; font.weight: Font.DemiBold; color: Colors.islandFgVar }
             SlideRow { title: "Icon size"; key: "dock.iconSize"; from: 32; to: 64; step: 1; unit: "px" }
             SlideRow { title: "Spacing"; key: "dock.spacing"; from: 0; to: 20; step: 1; unit: "px" }
@@ -550,12 +546,8 @@ FocusScope {
             SwitchRow { title: "Shadow"; key: "dock.shadow"; def: false }
             Label { height: 30; text: "Icons"; font.weight: Font.DemiBold; color: Colors.islandFgVar }
             SwitchRow { title: "Magnify on hover"; key: "dock.magnify" }
-            SlideRow { title: "Magnify strength"; key: "dock.zoom"; from: 100; to: 150; step: 2; unit: "%" }
             SwitchRow { title: "App names"; key: "dock.labels" }
             SwitchRow { title: "Running dots"; key: "dock.indicators" }
-            ColourRow { title: "Dot colour"; key: "dock.dotColor"; options: [{ v: "default", c: Colors.islandFg }, { v: "accent", c: Colors.islandPrimary }, { v: "#30d158", c: "#30d158" }, { v: "#0a84ff", c: "#0a84ff" }, { v: "#ff9f0a", c: "#ff9f0a" }] }
-            SwitchRow { title: "Divider"; key: "dock.separator" }
-            SwitchRow { title: "Window count"; key: "dock.windowCount" }
             Label { height: 30; text: "Pinned apps"; font.weight: Font.DemiBold }
             Repeater {
                 model: Svc.Dock.pinned
@@ -584,16 +576,8 @@ FocusScope {
             visible: root.page === "notifications"; width: parent.width; spacing: 2
             Row2 { width: parent.width; height: 34; title: "Do not disturb"
                 Switch { anchors.verticalCenter: parent.verticalCenter; on: Svc.Notifs.dnd; onToggled: v => Svc.Notifs.dnd = v } }
-            SwitchRow { title: "Quiet hours"; key: "notifications.dndSchedule"; def: false }
-            Row2 { width: parent.width; height: 34; title: "From – to"
-                Row { anchors.verticalCenter: parent.verticalCenter; spacing: 10
-                    TimeStep { key: "notifications.dndFrom"; fallback: "23:00" }
-                    Label { height: 28; text: "–"; color: Colors.islandFgVar }
-                    TimeStep { key: "notifications.dndTo"; fallback: "08:00" } } }
             SwitchRow { title: "Show in the pill"; key: "island.notifToasts" }
             SlideRow { title: "Shown for"; key: "island.notifHoldMs"; from: 2000; to: 15000; step: 500; unit: "ms" }
-            SwitchRow { title: "Sound"; key: "notifications.sound"; def: false }
-            Row2 { width: parent.width; height: 34; title: "Auto-remove"; z: 3; Drop { key: "notifications.maxAgeMin"; options: ["0", "30", "60", "180", "1440"]; labels: ({ "0": "Never", "30": "After 30 min", "60": "After 1 hour", "180": "After 3 hours", "1440": "After a day" }) } }
             Row2 { width: parent.width; height: 34; title: "In the list"
                 Row { spacing: 10; anchors.verticalCenter: parent.verticalCenter
                     Label { height: 26; text: Svc.Notifs.list.length + (Svc.Notifs.list.length === 1 ? " notification" : " notifications"); color: Colors.islandFgVar }
@@ -612,11 +596,22 @@ FocusScope {
                 color: Colors.islandFgVar; font.pixelSize: 11; text: "Apps appear here once they send a notification." }
         }
 
-        // Control center: the date format
+        // Wave: the screen-edge visualizer (wave.*)
         Column {
-            id: controlPage
-            visible: root.page === "control"; width: parent.width; spacing: 2
-            Row2 { width: parent.width; height: 34; title: "Date format"; z: 5; Drop { key: "island.dateFormat"; options: ["d MMMM yyyy", "dddd, d MMMM", "dd.MM.yyyy", "MMMM d, yyyy", "yyyy-MM-dd"] } }
+            id: wavePage
+            visible: root.page === "wave"; width: parent.width; spacing: 2
+            SwitchRow { title: "Enable"; key: "wave.enabled"; def: false }
+            ChipsRow { title: "Position"; key: "wave.position"; options: ["top", "bottom", "left", "right", "pill"]; labels: ({ pill: "Around pill" }) }
+            ChipsRow { title: "Source"; key: "wave.source"; options: ["sound", "mic"]; labels: ({ sound: "Sound", mic: "Microphone" }) }
+            Label { height: 30; text: "Look"; font.weight: Font.DemiBold; color: Colors.islandFgVar }
+            ColourEdit { panel: root; title: "Colour"; key: "wave.color" }
+            SlideRow { title: "Opacity"; key: "wave.opacity"; from: 1; to: 100; step: 1; unit: "%" }
+            SlideRow { title: "Height"; key: "wave.height"; from: 60; to: 800; step: 10; unit: "px" }
+            SlideRow { title: "Resting height"; key: "wave.base"; from: 0; to: 400; step: 5; unit: "px" }
+            SlideRow { title: "Smoothness"; key: "wave.smooth"; from: 0; to: 100; step: 1; unit: "%" }
+            Label { height: 30; text: "Outline"; font.weight: Font.DemiBold; color: Colors.islandFgVar }
+            SwitchRow { title: "Show outline"; key: "wave.border" }
+            ColourEdit { panel: root; visible: root.cfgValue("wave.border") !== false; title: "Colour"; key: "wave.borderColor"; defColor: Svc.Wave.tint }
         }
 
         // Theme: palette, accent, contrast and wallpapers

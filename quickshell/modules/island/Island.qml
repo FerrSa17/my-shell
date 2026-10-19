@@ -93,6 +93,8 @@ Item {
     readonly property bool armed: surface.armed
 
     width: body.width; height: body.height
+    // The pill's current corner radius (the wave ring around it follows it).
+    readonly property real bodyRadius: body.radius
 
     // A fresh object each time: reassigning the same object does not notify bindings. The new
     // object re-evaluates the Loader's sourceComponent binding, so no explicit reload is needed.

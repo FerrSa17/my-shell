@@ -9,6 +9,7 @@ import qs.services
 import "modules/island"
 import "modules/dock"
 import "modules/settings"
+import "modules/wave"
 
 // One island surface per screen; every panel and modal (control center, notifications, launcher,
 // wallpapers, tasks, timer) grows out of it. The dock and the settings window are the other layers.
@@ -17,6 +18,7 @@ ShellRoot {
     Component.onCompleted: { void Ipc.island; void Notifs.count; console.log("shell up, theme=" + Cfg.State.theme) }
     Variants { model: Quickshell.screens; delegate: IslandWindow {} }
     Variants { model: Quickshell.screens; delegate: DockWindow {} }
+    Variants { model: Quickshell.screens; delegate: WaveWindow {} }
     SettingsWindow {}
 
     // One shell per session. A second `qs` (a restart that never stopped the old one) maps a

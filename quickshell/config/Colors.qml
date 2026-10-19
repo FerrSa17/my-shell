@@ -174,6 +174,23 @@ Singleton {
         return v
     }
 
+    // A colour setting that may be a gradient: "#a,#b,#c,#d" (up to four stops) gives those colours,
+    // anything else the single colour pick() gives. Always a non-empty list of colours.
+    function stops(v, fallback) {
+        if (typeof v === "string" && v.indexOf(",") >= 0) {
+            const l = v.split(",").map(x => x.trim()).filter(x => /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(x)).slice(0, 4).map(x => Qt.color(x))
+            if (l.length) return l
+        }
+        return [Qt.color(pick(v, fallback))]
+    }
+    // The colour at t (0..1) along a list of stops.
+    function sample(list, t) {
+        if (list.length < 2) return list[0]
+        const x = Math.max(0, Math.min(1, t)) * (list.length - 1), i = Math.min(list.length - 2, Math.floor(x)), f = x - i
+        const a = list[i], b = list[i + 1]
+        return Qt.rgba(a.r + (b.r - a.r) * f, a.g + (b.g - a.g) * f, a.b + (b.b - a.b) * f, a.a + (b.a - a.a) * f)
+    }
+
     function apply(obj) {
         root.fade = root.loaded
         for (const k in obj) {

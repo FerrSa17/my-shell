@@ -14,6 +14,7 @@ Singleton {
     readonly property var island: root.data.island || ({})
     readonly property var modules: root.data.modules || ({})
     readonly property var motion: root.data.motion || ({})
+    readonly property var wave: root.data.wave || ({})
     readonly property var layout: root.data.layout || ({})
 
     function isObj(v) { return v !== null && typeof v === "object" && !Array.isArray(v) }

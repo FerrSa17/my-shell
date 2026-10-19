@@ -1,0 +1,19 @@
+# cava config for the screen-edge wave (services/Wave.qml): raw ascii levels on stdout.
+[general]
+bars = 48
+framerate = 60
+
+[input]
+method = pulse
+source = auto
+
+[output]
+method = raw
+raw_target = /dev/stdout
+data_format = ascii
+ascii_max_range = 1000
+bar_delimiter = 59
+frame_delimiter = 10
+
+[smoothing]
+noise_reduction = 85
